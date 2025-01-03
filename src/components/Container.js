@@ -280,7 +280,40 @@ export default (domComponents, config = {}) => {
                 style: {
                     'min-height': '50px;'
                 },
-
+                "script-props": [
+                    "initialSlide",
+                    "speed",
+                    "slidesPerView",
+                    "spaceBetween",
+                    "slidesPerGroup",
+                    "slidesOffsetBefore",
+                    "slidesOffsetAfter",
+                    "direction",
+                    "effect",
+                    "autoHeight",
+                    "watchOverflow",
+                    "centeredSlides",
+                    "loop",
+                    "smallSlidesPerView",
+                    "smallSpaceBetween",
+                    "smallSlidesPerGroup",
+                    "mediumSlidesPerView",
+                    "mediumSpaceBetween",
+                    "mediumSlidesPerGroup",
+                    "largeSlidesPerView",
+                    "largeSpaceBetween",
+                    "largeSlidesPerGroup",
+                    "pagination",
+                    "autoplay",
+                    "autoplayDelay",
+                    "autoplayStopOnLastSlide",
+                    "autoplayDisableOnInteraction",
+                    "autoplayReverseDirection",
+                    "autoplayWaitForTransition",
+                    "scrollbar",
+                    "scriptDeps",
+                    "styleDeps"
+                ],
                 'script-deps': config.script,
                 'style-deps': config.style,
                 'class-container': config.classContainer,
@@ -290,28 +323,26 @@ export default (domComponents, config = {}) => {
                 'class-pagination': config.classPagination,
                 'class-scrollbar': config.classScrollbar,
 
-                script() {
+                script(options) {
                     const el = this;
-                    const scriptDeps = '{[ script-deps ]}';
-                    const styleDeps = '{[ style-deps ]}';
+                    const elId = el.getAttribute('id');
                     const falsies = ['0', 'false', 'none'];
                     const truthies = ['1', 'true'];
-                    const elId = el.getAttribute('id');
 
-                    const options = {
-                        initialSlide: parseInt('{[ initialSlide ]}', 10),
-                        speed: parseInt('{[ speed ]}', 10),
-                        slidesPerView: parseInt('{[ slidesPerView ]}', 10),
-                        spaceBetween: parseInt('{[ spaceBetween ]}', 10),
-                        slidesPerGroup: parseInt('{[ slidesPerGroup ]}', 10),
-                        slidesOffsetBefore: parseInt('{[ slidesOffsetBefore ]}', 10),
-                        slidesOffsetAfter: parseInt('{[ slidesOffsetAfter ]}', 10),
-                        direction: '{[ direction ]}',
-                        effect: '{[ effect ]}',
-                        autoHeight: isNaN('{[ autoHeight ]}'),
-                        watchOverflow: isNaN('{[ watchOverflow ]}'),
-                        centeredSlides: isNaN('{[ centeredSlides ]}'),
-                        loop: isNaN('{[ loop ]}'),
+                    const swiperOptions = {
+                        initialSlide: parseInt(options.initialSlide, 10),
+                        speed: parseInt(options.speed, 10),
+                        slidesPerView: parseInt(options.slidesPerView, 10),
+                        spaceBetween: parseInt(options.spaceBetween, 10),
+                        slidesPerGroup: parseInt(options.slidesPerGroup, 10),
+                        slidesOffsetBefore: parseInt(options.slidesOffsetBefore, 10),
+                        slidesOffsetAfter: parseInt(options.slidesOffsetAfter, 10),
+                        direction: options.direction,
+                        effect: options.effect,
+                        autoHeight: isNaN(options.autoHeight),
+                        watchOverflow: isNaN(options.watchOverflow),
+                        centeredSlides: isNaN(options.centeredSlides),
+                        loop: isNaN(options.loop),
                         navigation: {
                             nextEl: `#${elId} .swiper-button-next`,
                             prevEl: `#${elId} .swiper-button-prev`,
@@ -319,61 +350,61 @@ export default (domComponents, config = {}) => {
                         breakpointsInverse: true,
                         breakpoints: {
                             576: {
-                                slidesPerView: parseInt('{[ smallSlidesPerView ]}', 10),
-                                spaceBetween: parseInt('{[ smallSpaceBetween ]}', 10),
-                                slidesPerGroup: parseInt('{[ smallSlidesPerGroup ]}', 10),
+                                slidesPerView: parseInt(options.smallSlidesPerView, 10),
+                                spaceBetween: parseInt(options.smallSpaceBetween, 10),
+                                slidesPerGroup: parseInt(options.smallSlidesPerGroup, 10),
                             },
                             768: {
-                                slidesPerView: parseInt('{[ mediumSlidesPerView ]}', 10),
-                                spaceBetween: parseInt('{[ mediumSpaceBetween ]}', 10),
-                                slidesPerGroup: parseInt('{[ mediumSlidesPerGroup ]}', 10),
+                                slidesPerView: parseInt(options.mediumSlidesPerView, 10),
+                                spaceBetween: parseInt(options.mediumSpaceBetween, 10),
+                                slidesPerGroup: parseInt(options.mediumSlidesPerGroup, 10),
                             },
                             992: {
-                                slidesPerView: parseInt('{[ largeSlidesPerView ]}', 10),
-                                spaceBetween: parseInt('{[ largeSpaceBetween ]}', 10),
-                                slidesPerGroup: parseInt('{[ largeSlidesPerGroup ]}', 10),
+                                slidesPerView: parseInt(options.largeSlidesPerView, 10),
+                                spaceBetween: parseInt(options.largeSpaceBetween, 10),
+                                slidesPerGroup: parseInt(options.largeSlidesPerGroup, 10),
                             },
                         }
                     };
 
-                    if (!falsies.includes('{[ pagination ]}')) {
-                        options.pagination = {
+                    if (!falsies.includes(options.pagination)) {
+                        swiperOptions.pagination = {
                             el: `#${elId} .swiper-pagination`,
-                            type: '{[ pagination ]}',
+                            type: options.pagination,
                         };
                     }
 
-                    if (truthies.includes('{[ autoplay ]}')) {
-                        options.autoplay = {
-                            delay: '{[ autoplayDelay ]}',
-                            stopOnLastSlide: '{[ autoplayStopOnLastSlide ]}',
-                            disableOnInteraction: '{[ autoplayDisableOnInteraction ]}',
-                            reverseDirection: '{[ autoplayReverseDirection ]}',
-                            waitForTransition: '{[ autoplayWaitForTransition ]}',
+                    if (truthies.includes(options.autoplay)) {
+                        swiperOptions.autoplay = {
+                            delay: options.autoplayDelay,
+                            stopOnLastSlide: options.autoplayStopOnLastSlide,
+                            disableOnInteraction: options.autoplayDisableOnInteraction,
+                            reverseDirection: options.autoplayReverseDirection,
+                            waitForTransition: options.autoplayWaitForTransition,
                         };
                     }
 
-                    if (isNaN('{[ scrollbar ]}')) {
-                        options.scrollbar = {
+                    if (isNaN(options.scrollbar)) {
+                        swiperOptions.scrollbar = {
                             el: `#${elId} .swiper-scrollbar`,
                             draggable: true,
                         };
                     }
 
                     const initSlider = function () {
-                        window.sliderSwiper = new Swiper(el, options);
+                        window.sliderSwiper = new Swiper(el, swiperOptions);
                     };
 
-                    if (scriptDeps && typeof Swiper == 'undefined') {
+                    if (options.scriptDeps && typeof Swiper === 'undefined') {
                         // Load the style tag
-                        var style = document.createElement('link');
+                        const style = document.createElement('link');
                         style.rel = 'stylesheet';
-                        style.href = styleDeps;
+                        style.href = options.styleDeps;
                         document.head.appendChild(style);
 
                         // Load the script tag
-                        var script = document.createElement('script');
-                        script.src = scriptDeps;
+                        const script = document.createElement('script');
+                        script.src = options.scriptDeps;
                         script.onload = initSlider;
                         document.head.appendChild(script);
                     } else {
@@ -385,7 +416,7 @@ export default (domComponents, config = {}) => {
         }, {
             isComponent(el) {
                 if (el.hasAttribute && el.hasAttribute(containerId)) {
-                    return {type: containerName};
+                    return { type: containerName };
                 }
             },
         }),
